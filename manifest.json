@@ -1,0 +1,28 @@
+{
+  "description": "Gets open Scryfall tabs and downloads full versions of their art.",
+  "manifest_version": 3,
+  "name": "Artfall",
+  "version": "0.0.1",
+  "homepage_url": "https://github.com/mdn/webextensions-examples/tree/master/beastify",
+
+  "icons": {
+    "48": "icons/artfall.svg"
+  },
+
+  "permissions": ["tabs", "downloads"],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "artfall.violet.the.renard@gmail.com",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
+  },
+  "action": {
+    "default_icon": "icons/artfall.svg",
+    "default_title": "Artfall"
+  },
+  "background": {
+    "scripts": ["artfall.js"]
+  }
+}
