@@ -41,18 +41,15 @@ function constructDownloadUrl(set, num, name) {
 //#endregion
 //#region Handlers
 
+// Reopen the Scryfall page if download fails
 async function handleInterrupted(delta) {
     if (delta.state && delta.state.current === "interrupted") {
-        // Reopen the Scryfall page?
         const item = (await browser.downloads.search({ id: delta.id }))[0];
-
-        console.log(item);
-
         const cardInfo = getDownloadCardInfo(item.url, item.filename);
+        const url = constructScryfallUrl(cardInfo.set, cardInfo.num, cardInfo.name);
 
-        console.log(constructScryfallUrl(cardInfo.set, cardInfo.num, cardInfo.name));
-
-        // const tab = await browser.tabs.create({ url: item.url });
+        const tab = await browser.tabs.create({ url });
+        tab.then(() => {}, (error) => console.log(`Error re-opening tab: ${error}`));
     }
 }
 
@@ -64,6 +61,8 @@ async function handleTab({tab, set, num, name}) {
         filename: `${name}.jpg`,
         conflictAction: "overwrite", // Don't create excess copies yet
     });
+
+    browser.tabs.remove(tab.id);
 }
 
 function handleTabs(tabs) {
