@@ -13,12 +13,16 @@ function getCardInfo(tab) {
 async function handleTab({tab, set, num, name}) {
     const image_url = `https://www.mtgpics.com/pics/art/${set}/${num}.jpg`;
 
-    browser.downloads.download({ url: image_url, filename: `${name}.jpg` }).then((result) => {
-        console.log(`Downloaded ${name}.jpg`);
-    }).catch((error) => {
-        console.error(`Couldn't get art for ${name} 3:`);
-        console.error(error);
-    });
+    browser.downloads.download({
+            url: image_url,
+            filename: `${name}.jpg`,
+            conflictAction: "overwrite", // Don't create excess copies
+        }).then((result) => {
+            console.log(`Downloaded ${name}.jpg`);
+        }).catch((error) => {
+            console.error(`Couldn't get art for ${name} 3:`);
+            console.error(error);
+        });
 }
 
 function handleTabs(tabs) {
